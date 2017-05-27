@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/ambo-dalle/web-api-restfull#readme",
   "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
     "mongodb": "^2.2.27",
     "mongoose": "^4.10.2"
   }
