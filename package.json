@@ -1,0 +1,24 @@
+{
+  "name": "web-api-restfull",
+  "version": "1.0.0",
+  "description": "## Tugas Phase 2 Week1",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ambo-dalle/web-api-restfull.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ambo-dalle/web-api-restfull/issues"
+  },
+  "homepage": "https://github.com/ambo-dalle/web-api-restfull#readme",
+  "dependencies": {
+    "mongodb": "^2.2.27",
+    "mongoose": "^4.10.2"
+  }
+}
