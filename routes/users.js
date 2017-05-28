@@ -7,7 +7,7 @@ router.post('/signup', Users.SignUp);
 router.post('/login', Users.SignIn);
 
 router.get('/', helperJwt.verifyAdminOnly, Users.findAllUsers)
-router.get('/:id', helperJwt.verifyAminUser, Users.findOneUser)
+router.get('/:id', helperJwt.verifyAdminOnly, Users.findOneUser)
 router.post('/', helperJwt.verifyAdminOnly, Users.insertUser)
 router.delete('/:id', helperJwt.verifyAdminOnly, Users.deleteUser)
 router.put('/:id', helperJwt.verifyAminUser, Users.updateUser)
