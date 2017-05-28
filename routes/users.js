@@ -1,11 +1,16 @@
 var express = require('express')
 var router = express.Router();
 var Users = require('../controllers/user_controller')
+var helperJwt = require('../helper/verifyAccount')
 
-router.get('/', Users.findAllUsers)
-router.get('/:id', Users.findOneUser)
-router.post('/', Users.insertUser)
-router.put('/:id', Users.updateUser)
+router.post('/signup', Users.SignUp);
+router.post('/login', Users.SignIn);
+
+router.get('/', helperJwt.verifyAdminOnly, Users.findAllUsers)
+router.get('/:id', helperJwt.verifyAminUser, Users.findOneUser)
+router.post('/', helperJwt.verifyAdminOnly, Users.insertUser)
+router.delete('/:id', helperJwt.verifyAdminOnly, Users.deleteUser)
+router.put('/:id', helperJwt.verifyAminUser, Users.updateUser)
 
 
 

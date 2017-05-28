@@ -1,5 +1,64 @@
 var User = require('../models/user_model');
-const bcrypt = require('bcrypt')
+var bcrypt = require('bcrypt')
+var jwt = require('jsonwebtoken')
+
+var SignUp = (req,res,next) =>{
+     User.findOne({username : req.body.username})
+     .then ((docs)=>{
+          if(docs) {
+               res.send('User name already exists')
+          } else {
+               User.findOne({email : req.body.email})
+               .then((result)=>{
+                    console.log(result);
+                    if(result) {
+                         res.send('This email already exists')
+                    } else {
+                         var insertUser = new User ({
+                              fullname : req.body.fullname,
+                              username : req.body.username,
+                              email : req.body.email,
+                              password : bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
+                              role : req.body.role || 'user'
+                         })
+                         insertUser.save((err, response)=>{
+                              if(err) {
+                                   res.send(err.message)
+                              } else {
+                                   res.send(response);
+                              }
+                         })
+                    }
+               })
+               .catch((err) => {
+                    res.send(err.message)
+               })
+          }
+     })
+     .catch((err) => {
+          res.send(err.message);
+     })
+}
+
+
+var SignIn =  (req,res,next)=> {
+  var getUser = User.findOne({username : req.body.username})
+  getUser.exec(function(err, user){
+    bcrypt.compare(req.body.password, user.password)
+      .then((value)=>{
+        if(value == true){
+          let token = jwt.sign({username: user.username, name:user.name}, 'SECRETUSER')
+          res.send({
+               token: token,
+			msg : user.msg
+          })
+        }
+        else{
+          res.send('password tidak cocok')
+        }
+      })
+  })
+}
 
 var findAllUsers = (req,res,next)=>{
      User.find({}, (err, docs)=>{
@@ -26,9 +85,9 @@ var insertUser = (req,res,next)=>{
           fullname : req.body.fullname,
           username : req.body.username,
           email : req.body.email,
-          password : req.body.password,
+          password : req.body.bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
           role : req.body.role || 'user'
-          // bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
+
      })
      insert.save((err, docs) =>{
           if (err) {
@@ -49,7 +108,7 @@ var deleteUser = (req,res,next) =>{
      })
 }
 
-var updateUser = (req, res)=>{
+var updateUser = (req, res,next)=>{
   User.findById(req.params.id, (err, docs) => {
    if (err) res.send(err)
    User.updateOne({
@@ -72,8 +131,11 @@ var updateUser = (req, res)=>{
 
 
 module.exports = {
+     SignUp,
+     SignIn,
      findAllUsers,
      findOneUser,
      insertUser,
-     updateUser
+     updateUser,
+     deleteUser
 }

@@ -1,6 +1,7 @@
 const express = require ('express');
 const app = express();
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 
 
 var mongoose = require('mongoose');
@@ -12,8 +13,10 @@ var memo = require('./routes/memo')
 var users = require('./routes/users')
 
 
+// app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended : false}))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 
 app.use('/memo', memo);
