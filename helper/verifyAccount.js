@@ -2,7 +2,7 @@ var jwt = require('jsonwebtoken');
 
 var verifyAdminOnly = (req,res,next) => {
      var token = req.headers.token;
-     var decode = jwt.verify(token, 'SECRETUSER')
+     var decode = jwt.verify(token, 'process.env.JWT_SECRET')
      console.log(decode.role);
      if(decode.role == 'admin') {
           next();
@@ -13,7 +13,7 @@ var verifyAdminOnly = (req,res,next) => {
 
 var verifyAminUser =(req,res,next) =>{
      var token = req.headers.token;
-     var decode = jwt.verify(token, 'SECRETUSER' )
+     var decode = jwt.verify(token, 'process.env.JWT_SECRET' )
      if (decode.role  == 'admin' || decode.role  == 'user') {
           next();
      } else {

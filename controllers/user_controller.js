@@ -1,6 +1,7 @@
 var User = require('../models/user_model');
 var bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken')
+require('dotenv')
 
 var SignUp = (req,res,next) =>{
      User.findOne({username : req.body.username})
@@ -47,7 +48,7 @@ var SignIn =  (req,res,next)=> {
     bcrypt.compare(req.body.password, user.password)
       .then((value)=>{
         if(value == true){
-          let token = jwt.sign({username: user.username, name:user.name}, 'SECRETUSER')
+          let token = jwt.sign({username: user.username, name:user.name}, 'process.env.JWT_SECRET')
           res.send({
                token: token,
 			msg : user.msg

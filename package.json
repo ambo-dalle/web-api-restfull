@@ -21,6 +21,7 @@
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
     "jsonwebtoken": "^7.4.1",
     "mongodb": "^2.2.27",
     "mongoose": "^4.10.2"
